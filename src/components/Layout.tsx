@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Mock login state
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
