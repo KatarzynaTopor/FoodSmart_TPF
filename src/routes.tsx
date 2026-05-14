@@ -5,6 +5,9 @@ import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Profile } from "./pages/Profile";
 import { MyReviews } from "./pages/MyReviews";
+import { AddRestaurant } from "./pages/AddRestaurant";
+import { DesignSystem } from "./pages/DesignSystem";
+
 
 
 export const router = createBrowserRouter([
@@ -17,6 +20,8 @@ export const router = createBrowserRouter([
       { path: "register", Component: Register },
       { path: "profile", Component: Profile },
       { path: "my-reviews", Component: MyReviews },
+      { path: "add-restaurant", Component: AddRestaurant },
+      { path: "design", Component: DesignSystem },
     ],
   },
 ]);
