@@ -7,7 +7,7 @@ import { Profile } from "./pages/Profile";
 import { MyReviews } from "./pages/MyReviews";
 import { AddRestaurant } from "./pages/AddRestaurant";
 import { DesignSystem } from "./pages/DesignSystem";
-
+import { ChatRecommendations } from "./pages/ChatRecommendations";
 
 
 export const router = createBrowserRouter([
@@ -22,6 +22,7 @@ export const router = createBrowserRouter([
       { path: "my-reviews", Component: MyReviews },
       { path: "add-restaurant", Component: AddRestaurant },
       { path: "design", Component: DesignSystem },
+      { path: "chat", Component: ChatRecommendations },
     ],
   },
 ]);
