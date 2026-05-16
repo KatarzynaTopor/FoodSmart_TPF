@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LogIn } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -8,21 +8,29 @@ import { Link } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 
-export function Login() {
+export function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login
-    if (email && password) {
-      toast.success("Zalogowano pomyślnie!");
-      setTimeout(() => {
-        window.location.href = "/profile";
-      }, 1000);
-    } else {
+    
+    if (!name || !email || !password || !confirmPassword) {
       toast.error("Proszę wypełnić wszystkie pola");
+      return;
     }
+    
+    if (password !== confirmPassword) {
+      toast.error("Hasła nie są identyczne");
+      return;
+    }
+
+    toast.success("Konto utworzone pomyślnie!");
+    setTimeout(() => {
+      window.location.href = "/profile";
+    }, 1000);
   };
 
   return (
@@ -30,13 +38,24 @@ export function Login() {
       <Toaster />
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">Logowanie</CardTitle>
+          <CardTitle className="text-3xl font-bold">Rejestracja</CardTitle>
           <p className="text-sm text-slate-600 mt-2">
-            Zaloguj się do swojego konta FoodSmart
+            Utwórz darmowe konto FoodSmart
           </p>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <Label htmlFor="name">Imię i nazwisko</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Jan Kowalski"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
             <div>
               <Label htmlFor="email">Email</Label>
               <Input
@@ -59,17 +78,28 @@ export function Login() {
                 required
               />
             </div>
+            <div>
+              <Label htmlFor="confirmPassword">Potwierdź hasło</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
             <Button type="submit" className="w-full gap-2">
-              <LogIn className="size-4" />
-              Zaloguj się
+              <UserPlus className="size-4" />
+              Utwórz konto
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-slate-600">
-              Nie masz konta?{" "}
-              <Link to="/register" className="text-orange-500 hover:underline">
-                Zarejestruj się
+              Masz już konto?{" "}
+              <Link to="/login" className="text-orange-500 hover:underline">
+                Zaloguj się
               </Link>
             </p>
           </div>
