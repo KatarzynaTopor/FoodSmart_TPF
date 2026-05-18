@@ -2,13 +2,6 @@ import { Outlet, Link, useLocation, useNavigate} from "react-router";
 import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield, LogOut} from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 
 export function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -127,39 +120,16 @@ export function Layout() {
                       Dodaj
                     </Button>
                   </Link>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button size="sm" className="gap-2">
-                        <User className="size-4" />
-                        Profil
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem asChild>
-                        <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
-                          <User className="size-4" />
-                          Mój profil
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link to="/favorites" className="flex items-center gap-2 cursor-pointer">
-                          <Heart className="size-4" />
-                          Ulubione
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link to="/my-reviews" className="flex items-center gap-2 cursor-pointer">
-                          <Star className="size-4" />
-                          Moje opinie
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 cursor-pointer text-red-600">
-                        <LogOut className="size-4" />
-                        Wyloguj
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <Link to="/profile">
+                    <Button size="sm" className="gap-2">
+                      <User className="size-4" />
+                      Moje konto
+                    </Button>
+                  </Link>
+                  <Button variant="outline" size="sm" className="gap-2 text-red-600 border-red-200 hover:bg-red-50" onClick={handleLogout}>
+                    <LogOut className="size-4" />
+                    Wyloguj
+                  </Button>
                 </>
               ) : (
                 <>
