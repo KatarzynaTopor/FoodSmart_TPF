@@ -14,8 +14,9 @@ export function Login() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login
     if (email && password) {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUser", JSON.stringify({ email, name: email.split("@")[0] }));
       toast.success("Zalogowano pomyślnie!");
       setTimeout(() => {
         window.location.href = "/profile";

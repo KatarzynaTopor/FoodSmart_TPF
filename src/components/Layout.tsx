@@ -1,14 +1,41 @@
-import { Outlet, Link, useLocation } from "react-router";
-import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield } from "lucide-react";
+import { Outlet, Link, useLocation, useNavigate} from "react-router";
+import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield, LogOut} from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Layout() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Mock login state
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true";
+  });
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => location.pathname === path;
+
+    useEffect(() => {
+    const checkLoginStatus = () => {
+      const loginStatus = localStorage.getItem("isLoggedIn") === "true";
+      setIsLoggedIn(loginStatus);
+    };
+
+    checkLoginStatus();
+    window.addEventListener("storage", checkLoginStatus);
+
+    const interval = setInterval(checkLoginStatus, 100);
+
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -96,9 +123,13 @@ export function Layout() {
                   <Link to="/profile">
                     <Button size="sm" className="gap-2">
                       <User className="size-4" />
-                      Profil
+                      Moje konto
                     </Button>
                   </Link>
+                  <Button variant="outline" size="sm" className="gap-2 text-red-600 border-red-200 hover:bg-red-50" onClick={handleLogout}>
+                    <LogOut className="size-4" />
+                    Wyloguj
+                  </Button>
                 </>
               ) : (
                 <>

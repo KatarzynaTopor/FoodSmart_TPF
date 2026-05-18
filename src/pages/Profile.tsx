@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, Mail, Settings, Save } from "lucide-react";
+import { User, Settings, Save, LogOut } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -8,9 +8,17 @@ import { Checkbox } from "../components/ui/checkbox";
 import { mockUser } from "../data/mockData";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
+import { useNavigate } from "react-router";
 
 export function Profile() {
   const [user, setUser] = useState(mockUser);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    navigate("/");
+  };
 
   const cuisines = ["Italian", "Japanese", "Thai", "Chinese", "Mexican", "Indian", "Polish"];
   const diets = ["Vegan", "Vegetarian", "Gluten-Free", "Lactose-Free", "Halal", "Kosher"];
@@ -44,6 +52,14 @@ export function Profile() {
               <Button variant="outline" className="w-full gap-2">
                 <Settings className="size-4" />
                 Ustawienia konta
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full gap-2 mt-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
+                onClick={handleLogout}
+              >
+                <LogOut className="size-4" />
+                Wyloguj się
               </Button>
             </CardContent>
           </Card>
