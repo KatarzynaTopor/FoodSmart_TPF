@@ -1,14 +1,48 @@
-import { Outlet, Link, useLocation } from "react-router";
-import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield } from "lucide-react";
+import { Outlet, Link, useLocation, useNavigate} from "react-router";
+import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield, LogOut} from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export function Layout() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Mock login state
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true";
+  });
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => location.pathname === path;
+
+    useEffect(() => {
+    const checkLoginStatus = () => {
+      const loginStatus = localStorage.getItem("isLoggedIn") === "true";
+      setIsLoggedIn(loginStatus);
+    };
+
+    checkLoginStatus();
+    window.addEventListener("storage", checkLoginStatus);
+
+    const interval = setInterval(checkLoginStatus, 100);
+
+    return () => {
+      window.removeEventListener("storage", checkLoginStatus);
+      clearInterval(interval);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -93,12 +127,39 @@ export function Layout() {
                       Dodaj
                     </Button>
                   </Link>
-                  <Link to="/profile">
-                    <Button size="sm" className="gap-2">
-                      <User className="size-4" />
-                      Profil
-                    </Button>
-                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="sm" className="gap-2">
+                        <User className="size-4" />
+                        Profil
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem asChild>
+                        <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                          <User className="size-4" />
+                          Mój profil
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/favorites" className="flex items-center gap-2 cursor-pointer">
+                          <Heart className="size-4" />
+                          Ulubione
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/my-reviews" className="flex items-center gap-2 cursor-pointer">
+                          <Star className="size-4" />
+                          Moje opinie
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-2 cursor-pointer text-red-600">
+                        <LogOut className="size-4" />
+                        Wyloguj
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </>
               ) : (
                 <>
