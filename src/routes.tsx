@@ -7,8 +7,9 @@ import { Profile } from "./pages/Profile";
 import { MyReviews } from "./pages/MyReviews";
 import { AddRestaurant } from "./pages/AddRestaurant";
 import { DesignSystem } from "./pages/DesignSystem";
-
-
+import { ChatRecommendations } from "./pages/ChatRecommendations";
+import { ColorSystem } from "./pages/ColorSystem";
+import { NotFound } from "./pages/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,9 @@ export const router = createBrowserRouter([
       { path: "my-reviews", Component: MyReviews },
       { path: "add-restaurant", Component: AddRestaurant },
       { path: "design", Component: DesignSystem },
+      { path: "chat", Component: ChatRecommendations },
+      { path: "colors", Component: ColorSystem },
+      { path: "*", Component: NotFound },
     ],
   },
 ]);
