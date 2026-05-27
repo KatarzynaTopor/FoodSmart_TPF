@@ -159,3 +159,56 @@ export const mockUser: User = {
   favoriteRestaurants: ["1", "3"],
   isAdmin: false,
 };
+
+export const mockUsers: User[] = [
+  {
+    id: "user1",
+    name: "Anna Kowalska",
+    email: "anna.kowalska@example.com",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
+    preferences: {
+      dietaryRestrictions: ["Vegetarian"],
+      cuisinePreferences: ["Italian", "Japanese", "Thai"],
+      priceRange: ["$$", "$$$"],
+    },
+    favoriteRestaurants: ["1", "3"],
+    isAdmin: false,
+  },
+  {
+    id: "user2",
+    name: "Jan Nowak",
+    email: "jan.nowak@example.com",
+    preferences: {
+      dietaryRestrictions: [],
+      cuisinePreferences: ["American", "Italian"],
+      priceRange: ["$", "$$"],
+    },
+    favoriteRestaurants: ["4"],
+    isAdmin: false,
+  },
+  {
+    id: "user3",
+    name: "Maria Wiśniewska",
+    email: "maria.wisniewska@example.com",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200",
+    preferences: {
+      dietaryRestrictions: [],
+      cuisinePreferences: ["Italian", "Mediterranean"],
+      priceRange: ["$$$"],
+    },
+    favoriteRestaurants: ["2", "6"],
+    isAdmin: false,
+  },
+  {
+    id: "admin1",
+    name: "Admin FoodSmart",
+    email: "admin@foodsmart.pl",
+    preferences: {
+      dietaryRestrictions: [],
+      cuisinePreferences: [],
+      priceRange: [],
+    },
+    favoriteRestaurants: [],
+    isAdmin: true,
+  },
+];

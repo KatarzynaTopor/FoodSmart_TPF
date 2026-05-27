@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { RestaurantList } from "./pages/RestaurantList";
+import { RestaurantDetails } from "./pages/RestaurantDetails";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { Profile } from "./pages/Profile";
@@ -17,6 +20,9 @@ export const router = createBrowserRouter([
     Component: Layout,
     children: [
       { index: true, Component: Home },
+      { path: "admin", Component: AdminDashboard },
+      { path: "restaurants", Component: RestaurantList },
+      { path: "restaurants/:id", Component: RestaurantDetails },
       { path: "login", Component: Login },
       { path: "register", Component: Register },
       { path: "profile", Component: Profile },
