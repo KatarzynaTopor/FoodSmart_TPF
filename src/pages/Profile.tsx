@@ -49,10 +49,6 @@ export function Profile() {
               </div>
               <h2 className="text-xl font-semibold mb-1">{user.name}</h2>
               <p className="text-sm text-slate-600 mb-4">{user.email}</p>
-              <Button variant="outline" className="w-full gap-2">
-                <Settings className="size-4" />
-                Ustawienia konta
-              </Button>
               <Button
                 variant="outline"
                 className="w-full gap-2 mt-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
