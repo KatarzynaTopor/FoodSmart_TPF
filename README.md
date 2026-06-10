@@ -1,73 +1,212 @@
-# React + TypeScript + Vite
+# 🍽️ FoodSmart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Opis projektu
 
-Currently, two official plugins are available:
+FoodSmart to aplikacja internetowa stworzona w technologii React i TypeScript, której celem jest wspomaganie użytkowników w wyszukiwaniu restauracji oraz podejmowaniu decyzji dotyczących wyboru lokalu gastronomicznego. Aplikacja umożliwia przeglądanie restauracji, zarządzanie opiniami użytkowników oraz korzystanie z modułu rekomendacji restauracji.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Projekt został wykonany w ramach przedmiotu Techniki Projektowania Frontendowego.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologie
 
-## Expanding the ESLint configuration
+Projekt został zrealizowany z wykorzystaniem następujących technologii:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 18
+- TypeScript
+- Vite
+- React Router
+- Material UI
+- Radix UI
+- Tailwind CSS
+- Lucide React
+- Sonner
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Funkcjonalności
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Strona główna
+
+Strona główna stanowi centralny punkt aplikacji. Użytkownik może wyszukiwać restauracje, przeglądać najpopularniejsze lokale oraz przechodzić do modułu rekomendacji.
+
+![Home](./docs/home.png)
+
+---
+
+### Logowanie użytkownika
+
+Aplikacja umożliwia logowanie użytkowników oraz zarządzanie sesją użytkownika.
+
+![Login](./docs/login.png)
+
+---
+
+### Rejestracja użytkownika
+
+Nowi użytkownicy mogą założyć konto za pomocą formularza rejestracyjnego.
+
+![Register](./docs/register.png)
+
+---
+
+### Profil użytkownika
+
+Widok profilu umożliwia przeglądanie danych konta oraz informacji związanych z aktywnością użytkownika.
+
+![Profile](./docs/profile.png)
+
+---
+
+### Moje opinie
+
+Użytkownik może przeglądać własne recenzje oraz historię dodanych opinii.
+
+![Reviews](./docs/reviews.png)
+
+---
+
+### Dodawanie restauracji
+
+System umożliwia dodawanie nowych restauracji za pomocą dedykowanego formularza.
+
+![AddRestaurant](./docs/add-restaurant.png)
+
+---
+
+### Moduł rekomendacji
+
+Chatbot rekomenduje restauracje na podstawie preferencji użytkownika.
+
+![Chatbot](./docs/chatbot.png)
+
+
+---
+
+## Routing
+
+Aplikacja wykorzystuje React Router do obsługi nawigacji.
+
+| Ścieżka | Opis |
+|----------|----------|
+| / | Strona główna |
+| /login | Logowanie |
+| /register | Rejestracja |
+| /profile | Profil użytkownika |
+| /my-reviews | Moje opinie |
+| /add-restaurant | Dodawanie restauracji |
+| /chat | Chat rekomendacji |
+| /design | Design System |
+| /colors | Color System |
+| * | Widok 404 |
+
+---
+
+## Struktura projektu
+
+```text
+src/
+│
+├── components/
+│   ├── Layout.tsx
+│   └── ui/
+│
+├── pages/
+│   ├── Home.tsx
+│   ├── Login.tsx
+│   ├── Register.tsx
+│   ├── Profile.tsx
+│   ├── MyReviews.tsx
+│   ├── AddRestaurant.tsx
+│   ├── ChatRecommendations.tsx
+│   ├── DesignSystem.tsx
+│   ├── ColorSystem.tsx
+│   └── NotFound.tsx
+│
+├── data/
+│   └── mockData.ts
+│
+├── routes.tsx
+├── App.tsx
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Komponenty wielokrotnego użytku
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Projekt wykorzystuje zestaw reużywalnych komponentów UI znajdujących się w katalogu `components/ui`.
+
+Przykładowe komponenty:
+
+- Button
+- Input
+- Card
+- Select
+- Avatar
+- Badge
+- Checkbox
+- Dropdown Menu
+- Textarea
+
+Zastosowanie wspólnych komponentów pozwala zachować spójność wizualną aplikacji oraz ograniczyć duplikację kodu.
+
+---
+
+## Responsywność
+
+Interfejs został zaprojektowany zgodnie z zasadami Responsive Web Design (RWD). Układ automatycznie dostosowuje się do różnych rozdzielczości ekranów, dzięki czemu aplikacja może być wygodnie używana zarówno na komputerach stacjonarnych, jak i urządzeniach mobilnych.
+
+---
+
+## Uruchomienie projektu
+
+Instalacja zależności:
+
+```bash
+npm install
 ```
+
+Uruchomienie środowiska deweloperskiego:
+
+```bash
+npm run dev
+```
+
+Budowanie wersji produkcyjnej:
+
+```bash
+npm run build
+```
+
+Podgląd wersji produkcyjnej:
+
+```bash
+npm run preview
+```
+
+---
+
+## Deploy aplikacji
+
+Link do wdrożonej aplikacji:
+
+```text
+https://foodsmart-ten.vercel.app
+```
+
+---
+
+## Google Analytics
+
+Poniżej przedstawiono konfigurację oraz działanie Google Analytics.
+
+![Google Analytics](./docs/google-analytics.png)
+
+---
+
+## Hotjar
+
+Poniżej przedstawiono działanie narzędzia Hotjar służącego do analizy zachowań użytkowników.
+
+![Hotjar](./docs/hotjar.png)
