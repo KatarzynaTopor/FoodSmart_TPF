@@ -1,7 +1,8 @@
-import { Outlet, Link, useLocation, useNavigate} from "react-router";
-import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield, LogOut} from "lucide-react";
+import { Outlet, Link, useLocation, useNavigate } from "react-router";
+import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
+import ReactGA from "react-ga4";
 
 export function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -13,7 +14,14 @@ export function Layout() {
 
   const isActive = (path: string) => location.pathname === path;
 
-    useEffect(() => {
+  useEffect(() => {
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname,
+    });
+  }, [location]);
+
+  useEffect(() => {
     const checkLoginStatus = () => {
       const loginStatus = localStorage.getItem("isLoggedIn") === "true";
       setIsLoggedIn(loginStatus);
@@ -54,27 +62,24 @@ export function Layout() {
             <nav className="hidden md:flex items-center gap-6">
               <Link
                 to="/"
-                className={`flex items-center gap-2 text-sm ${
-                  isActive("/") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
-                }`}
+                className={`flex items-center gap-2 text-sm ${isActive("/") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
+                  }`}
               >
                 <Home className="size-4" />
                 Strona główna
               </Link>
               <Link
                 to="/restaurants"
-                className={`flex items-center gap-2 text-sm ${
-                  isActive("/restaurants") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
-                }`}
+                className={`flex items-center gap-2 text-sm ${isActive("/restaurants") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
+                  }`}
               >
                 <UtensilsCrossed className="size-4" />
                 Restauracje
               </Link>
               <Link
                 to="/chat"
-                className={`flex items-center gap-2 text-sm ${
-                  isActive("/chat") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
-                }`}
+                className={`flex items-center gap-2 text-sm ${isActive("/chat") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
+                  }`}
               >
                 <MessageSquare className="size-4" />
                 Chatbot
@@ -83,18 +88,16 @@ export function Layout() {
                 <>
                   <Link
                     to="/favorites"
-                    className={`flex items-center gap-2 text-sm ${
-                      isActive("/favorites") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
-                    }`}
+                    className={`flex items-center gap-2 text-sm ${isActive("/favorites") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
+                      }`}
                   >
                     <Heart className="size-4" />
                     Ulubione
                   </Link>
                   <Link
                     to="/my-reviews"
-                    className={`flex items-center gap-2 text-sm ${
-                      isActive("/my-reviews") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
-                    }`}
+                    className={`flex items-center gap-2 text-sm ${isActive("/my-reviews") ? "text-orange-500 font-medium" : "text-slate-600 hover:text-slate-900"
+                      }`}
                   >
                     <Star className="size-4" />
                     Moje opinie
