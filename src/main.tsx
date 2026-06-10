@@ -7,6 +7,11 @@ import App from './App.tsx'
 
 ReactGA.initialize("G-7P7MNT81T3");
 
+const script = document.createElement("script");
+script.src = "https://t.contentsquare.net/uxa/3c9e5b7a32b31.js";
+script.async = true;
+document.head.appendChild(script);
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
