@@ -4,13 +4,14 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ export function Login() {
       localStorage.setItem("currentUser", JSON.stringify({ email, name: email.split("@")[0] }));
       toast.success("Zalogowano pomyślnie!");
       setTimeout(() => {
-        window.location.href = "/profile";
+        navigate("/profile");
       }, 1000);
     } else {
       toast.error("Proszę wypełnić wszystkie pola");

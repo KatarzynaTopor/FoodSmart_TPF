@@ -1,21 +1,23 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Search, MessageSquare, Star, TrendingUp, MapPin } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent } from "../components/ui/card";
 import { mockRestaurants } from "../data/mockData";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  const topRestaurants = mockRestaurants
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 3);
+  const topRestaurants = useMemo(
+    () => [...mockRestaurants].sort((a, b) => b.rating - a.rating).slice(0, 3),
+    []
+  );
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `/restaurants?search=${encodeURIComponent(searchQuery)}`;
+    navigate(`/restaurants?search=${encodeURIComponent(searchQuery)}`);
   };
 
   return (

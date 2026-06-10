@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 
@@ -13,23 +13,26 @@ export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name || !email || !password || !confirmPassword) {
       toast.error("Proszę wypełnić wszystkie pola");
       return;
     }
-    
+
     if (password !== confirmPassword) {
       toast.error("Hasła nie są identyczne");
       return;
     }
 
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("currentUser", JSON.stringify({ email, name }));
     toast.success("Konto utworzone pomyślnie!");
     setTimeout(() => {
-      window.location.href = "/profile";
+      navigate("/profile");
     }, 1000);
   };
 
