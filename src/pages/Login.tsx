@@ -7,22 +7,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Link } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
+    setLoading(true);
+    try {
+      const credential = await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("currentUser", JSON.stringify({ email, name: email.split("@")[0] }));
+      localStorage.setItem("currentUser", JSON.stringify({ email, name: credential.user.displayName ?? email.split("@")[0] }));
       toast.success("Zalogowano pomyślnie!");
-      setTimeout(() => {
-        window.location.href = "/profile";
-      }, 1000);
-    } else {
-      toast.error("Proszę wypełnić wszystkie pola");
+      setTimeout(() => { window.location.href = "/profile"; }, 1000);
+    } catch (err: any) {
+      const msg: Record<string, string> = {
+        "auth/invalid-credential": "Nieprawidłowy email lub hasło",
+        "auth/user-not-found": "Nie znaleziono konta z tym adresem email",
+        "auth/wrong-password": "Nieprawidłowe hasło",
+        "auth/too-many-requests": "Zbyt wiele prób. Spróbuj ponownie za chwilę",
+      };
+      toast.error(msg[err.code] ?? "Błąd logowania. Spróbuj ponownie.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,9 +71,9 @@ export function Login() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full gap-2">
+            <Button type="submit" className="w-full gap-2" disabled={loading}>
               <LogIn className="size-4" />
-              Zaloguj się
+              {loading ? "Logowanie..." : "Zaloguj się"}
             </Button>
           </form>
 

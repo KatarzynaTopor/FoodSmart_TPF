@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User, Settings, Save, LogOut } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -9,12 +9,28 @@ import { mockUser } from "../data/mockData";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 import { useNavigate } from "react-router";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 export function Profile() {
   const [user, setUser] = useState(mockUser);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser((prev) => ({
+          ...prev,
+          name: firebaseUser.displayName ?? prev.name,
+          email: firebaseUser.email ?? prev.email,
+        }));
+      }
+    });
+    return unsub;
+  }, []);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUser");
     navigate("/");
