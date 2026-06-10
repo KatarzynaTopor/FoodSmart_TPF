@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { mockUsers } from "../data/mockData";
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 export function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -45,7 +47,8 @@ export function Layout() {
     };
   }, [location]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUser");
     setIsLoggedIn(false);

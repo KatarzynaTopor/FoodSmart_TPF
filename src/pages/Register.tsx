@@ -31,12 +31,6 @@ export function Register() {
       return;
     }
 
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("currentUser", JSON.stringify({ email, name }));
-    toast.success("Konto utworzone pomyślnie!");
-    setTimeout(() => {
-      navigate("/profile");
-    }, 1000);
     setLoading(true);
     try {
       const credential = await createUserWithEmailAndPassword(auth, email, password);
@@ -44,7 +38,7 @@ export function Register() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("currentUser", JSON.stringify({ email, name }));
       toast.success("Konto utworzone pomyślnie!");
-      setTimeout(() => { window.location.href = "/profile"; }, 1000);
+      setTimeout(() => { navigate("/profile"); }, 1000);
     } catch (err: any) {
       const msg: Record<string, string> = {
         "auth/email-already-in-use": "Konto z tym adresem email już istnieje",
