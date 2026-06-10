@@ -192,7 +192,7 @@ npm run preview
 Link do wdrożonej aplikacji:
 
 ```text
-https://foodsmart-ten.vercel.app
+https://foodsmart2.vercel.app
 ```
 
 ---
@@ -224,8 +224,10 @@ Poniżej przedstawiono konfigurację oraz działanie Google Analytics.
 
 ---
 
-## Hotjar
+## Contentsquare
 
-Poniżej przedstawiono działanie narzędzia Hotjar służącego do analizy zachowań użytkowników.
+W aplikacji wykorzystano Contentsquare do monitorowania aktywności użytkowników oraz analizy sposobu korzystania z systemu. Narzędzie umożliwia zbieranie danych o sesjach użytkowników i interakcjach z aplikacją.
 
-![Hotjar](./docs/hotjar.png)
+![Contentsquare](./docs/contentsquare.png)
+
+![Panel analityczny Contentsquare](./docs/contentsquare2.png)
