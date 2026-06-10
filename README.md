@@ -1,4 +1,4 @@
-# 🍽️ FoodSmart
+#  FoodSmart
 
 ## Opis projektu
 
