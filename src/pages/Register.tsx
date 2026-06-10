@@ -7,30 +7,46 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Link } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 export function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name || !email || !password || !confirmPassword) {
       toast.error("Proszę wypełnić wszystkie pola");
       return;
     }
-    
     if (password !== confirmPassword) {
       toast.error("Hasła nie są identyczne");
       return;
     }
 
-    toast.success("Konto utworzone pomyślnie!");
-    setTimeout(() => {
-      window.location.href = "/profile";
-    }, 1000);
+    setLoading(true);
+    try {
+      const credential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(credential.user, { displayName: name });
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUser", JSON.stringify({ email, name }));
+      toast.success("Konto utworzone pomyślnie!");
+      setTimeout(() => { window.location.href = "/profile"; }, 1000);
+    } catch (err: any) {
+      const msg: Record<string, string> = {
+        "auth/email-already-in-use": "Konto z tym adresem email już istnieje",
+        "auth/weak-password": "Hasło musi mieć co najmniej 6 znaków",
+        "auth/invalid-email": "Nieprawidłowy adres email",
+      };
+      toast.error(msg[err.code] ?? "Błąd rejestracji. Spróbuj ponownie.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,9 +105,9 @@ export function Register() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full gap-2">
+            <Button type="submit" className="w-full gap-2" disabled={loading}>
               <UserPlus className="size-4" />
-              Utwórz konto
+              {loading ? "Tworzenie konta..." : "Utwórz konto"}
             </Button>
           </form>
 
