@@ -197,6 +197,27 @@ https://foodsmart-ten.vercel.app
 
 ---
 
+## Firebase Authentication
+
+Aplikacja wykorzystuje Firebase Authentication do obsługi rejestracji i logowania użytkowników.
+
+### Konfiguracja
+
+Plik konfiguracyjny znajduje się w `src/lib/firebase.ts` i zawiera dane projektu Firebase (apiKey, authDomain, projectId itd.).
+
+### Działanie
+
+- **Rejestracja** (`/register`) — tworzy konto w Firebase przy użyciu `createUserWithEmailAndPassword`, następnie zapisuje imię użytkownika przez `updateProfile`
+- **Logowanie** (`/login`) — uwierzytelnia użytkownika przez `signInWithEmailAndPassword` z obsługą błędów (nieprawidłowe hasło, brak konta, zbyt wiele prób)
+- **Wylogowanie** (`/profile`) — wywołuje `signOut` i czyści lokalną sesję
+- **Profil** (`/profile`) — dane zalogowanego użytkownika (imię, email) pobierane są przez `onAuthStateChanged` w czasie rzeczywistym
+
+### Użyte pakiety
+
+- `firebase` — oficjalny SDK Firebase dla JavaScript
+
+---
+
 ## Google Analytics
 
 Poniżej przedstawiono konfigurację oraz działanie Google Analytics.
