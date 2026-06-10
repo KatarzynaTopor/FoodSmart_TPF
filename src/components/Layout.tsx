@@ -1,14 +1,17 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router";
 import { Home, UtensilsCrossed, MessageSquare, User, Heart, Star, PlusCircle, Shield, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
+import { mockUsers } from "../data/mockData";
 import { useState, useEffect } from "react";
 import ReactGA from "react-ga4";
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 export function Layout() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem("isLoggedIn") === "true";
   });
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -25,20 +28,27 @@ export function Layout() {
     const checkLoginStatus = () => {
       const loginStatus = localStorage.getItem("isLoggedIn") === "true";
       setIsLoggedIn(loginStatus);
+
+      if (loginStatus) {
+        const stored = localStorage.getItem("currentUser");
+        const email = stored ? JSON.parse(stored).email : null;
+        const user = email ? mockUsers.find((u) => u.email === email) : null;
+        setIsAdmin(user?.isAdmin ?? false);
+      } else {
+        setIsAdmin(false);
+      }
     };
 
     checkLoginStatus();
     window.addEventListener("storage", checkLoginStatus);
 
-    const interval = setInterval(checkLoginStatus, 100);
-
     return () => {
       window.removeEventListener("storage", checkLoginStatus);
-      clearInterval(interval);
     };
-  }, []);
+  }, [location]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut(auth);
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUser");
     setIsLoggedIn(false);

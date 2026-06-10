@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -14,6 +14,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ export function Login() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("currentUser", JSON.stringify({ email, name: credential.user.displayName ?? email.split("@")[0] }));
       toast.success("Zalogowano pomyślnie!");
-      setTimeout(() => { window.location.href = "/profile"; }, 1000);
+      setTimeout(() => { navigate("/profile"); }, 1000);
     } catch (err: any) {
       const msg: Record<string, string> = {
         "auth/invalid-credential": "Nieprawidłowy email lub hasło",
