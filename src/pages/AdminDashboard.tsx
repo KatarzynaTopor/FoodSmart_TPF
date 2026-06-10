@@ -24,7 +24,9 @@ export function AdminDashboard() {
   const [users, setUsers] = useState<User[]>(mockUsers);
 
   const avgRating =
-    restaurants.reduce((sum, r) => sum + r.rating, 0) / restaurants.length;
+    restaurants.length > 0
+      ? restaurants.reduce((sum, r) => sum + r.rating, 0) / restaurants.length
+      : 0;
 
   const stats = [
     {

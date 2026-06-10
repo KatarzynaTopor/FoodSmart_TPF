@@ -13,6 +13,7 @@ import { DesignSystem } from "./pages/DesignSystem";
 import { ChatRecommendations } from "./pages/ChatRecommendations";
 import { ColorSystem } from "./pages/ColorSystem";
 import { NotFound } from "./pages/NotFound";
+import { Favourites } from "./pages/Favourites";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "register", Component: Register },
       { path: "profile", Component: Profile },
       { path: "my-reviews", Component: MyReviews },
+      { path: "favorites", Component: Favourites },
       { path: "add-restaurant", Component: AddRestaurant },
       { path: "design", Component: DesignSystem },
       { path: "chat", Component: ChatRecommendations },

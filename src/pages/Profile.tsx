@@ -5,7 +5,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Checkbox } from "../components/ui/checkbox";
-import { mockUser } from "../data/mockData";
+import { mockUser, mockUsers } from "../data/mockData";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
 import { useNavigate } from "react-router";
@@ -13,7 +13,15 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../lib/firebase";
 
 export function Profile() {
-  const [user, setUser] = useState(mockUser);
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("currentUser");
+    if (stored) {
+      const { email } = JSON.parse(stored);
+      const found = mockUsers.find((u) => u.email === email);
+      if (found) return found;
+    }
+    return mockUser;
+  });
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (firebaseUser) => {

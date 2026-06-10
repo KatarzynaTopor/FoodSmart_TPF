@@ -15,7 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { mockRestaurants, mockReviews } from "../data/mockData";
+import { mockRestaurants, mockReviews, mockUser } from "../data/mockData";
 
 export function RestaurantDetails() {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +24,9 @@ export function RestaurantDetails() {
   const [reviews, setReviews] = useState(
     mockReviews.filter((r) => r.restaurantId === id)
   );
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(
+    mockUser.favoriteRestaurants.includes(id ?? "")
+  );
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
   const [helpfulVoted, setHelpfulVoted] = useState<Set<string>>(new Set());
@@ -52,12 +54,14 @@ export function RestaurantDetails() {
   const submitReview = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newReview.comment.trim()) return;
+    const stored = localStorage.getItem("currentUser");
+    const currentUser = stored ? JSON.parse(stored) : { name: "Anonim" };
     setReviews((prev) => [
       {
         id: `new-${Date.now()}`,
         restaurantId: restaurant.id,
         userId: "user1",
-        userName: "Anna Kowalska",
+        userName: currentUser.name,
         rating: newReview.rating,
         comment: newReview.comment,
         date: new Date().toISOString().slice(0, 10),
@@ -103,7 +107,7 @@ export function RestaurantDetails() {
                 <div className="flex items-center gap-1">
                   <Star className="size-5 fill-yellow-400 text-yellow-400" />
                   <span className="font-semibold text-lg">{avgRating.toFixed(1)}</span>
-                  <span className="text-white/70">({reviews.length} opinii)</span>
+                  <span className="text-white/70">({restaurant.reviewCount} opinii)</span>
                 </div>
                 <span className="bg-white/20 px-2 py-0.5 rounded text-sm">
                   {restaurant.priceRange}
